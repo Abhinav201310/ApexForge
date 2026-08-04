@@ -16,6 +16,7 @@
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
 <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+<script src="config.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Fraunces:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet">
 <style>
@@ -108,58 +109,139 @@ body {
   transition: transform var(--transition);
 }
 .sidebar-logo {
-  padding: 24px 20px 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding: 20px 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0) 100%);
+  transition: background 0.3s ease;
 }
-.animated-logo-icon {
-  width: 42px;
-  height: 42px;
-  border-radius: 12px;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, #e07a5f 100%);
+.sidebar-logo:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+.apex-logo-container {
+  width: 46px;
+  height: 46px;
+  position: relative;
+  perspective: 600px;
+  flex-shrink: 0;
+}
+.apex-logo-card {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, box-shadow 0.3s ease;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #1c1917 0%, #292524 100%);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 22px;
-  color: #fff;
-  position: relative;
-  box-shadow: 0 0 15px rgba(193, 124, 62, 0.4);
-  animation: logoGlow 3s ease-in-out infinite alternate;
 }
-.animated-logo-icon::before {
-  content: '';
-  position: absolute;
-  inset: -3px;
-  border-radius: 14px;
-  border: 1.5px dashed rgba(255, 255, 255, 0.4);
-  animation: logoSpin 12s linear infinite;
+.apex-logo-svg {
+  width: 32px;
+  height: 32px;
+  filter: drop-shadow(0 4px 8px rgba(193, 124, 62, 0.4));
+  transition: filter 0.3s ease;
 }
-@keyframes logoGlow {
-  0% { transform: scale(1); box-shadow: 0 0 12px rgba(193, 124, 62, 0.4); }
-  100% { transform: scale(1.04); box-shadow: 0 0 24px rgba(224, 122, 95, 0.7); }
+.apex-logo-svg .apex-spark {
+  transform-origin: 24px 24px;
+  animation: sparkPulse 2.5s infinite ease-in-out;
 }
-@keyframes logoSpin {
+.apex-logo-svg .apex-flame {
+  transform-origin: 24px 24px;
+  animation: flameFlicker 3s infinite ease-in-out alternate;
+}
+.apex-logo-svg .apex-ring {
+  transform-origin: 24px 24px;
+  stroke-dasharray: 120;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 0.8s ease;
+}
+.sidebar-logo:hover .apex-logo-svg .apex-ring {
+  animation: ringRotate 4s linear infinite;
+}
+.sidebar-logo:hover .apex-logo-card {
+  box-shadow: 0 8px 25px rgba(193, 124, 62, 0.4), 0 0 15px rgba(224, 122, 95, 0.3), inset 0 1px 1px rgba(255,255,255,0.4);
+}
+@keyframes sparkPulse {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.9; }
+  50% { transform: scale(1.25) rotate(15deg); opacity: 1; filter: drop-shadow(0 0 6px #f59e0b); }
+}
+@keyframes flameFlicker {
+  0% { transform: opacity(0.9) translateY(0); }
+  50% { transform: opacity(1) translateY(-1px) scale(1.03); }
+  100% { transform: opacity(0.85) translateY(1px); }
+}
+@keyframes ringRotate {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+.logo-brand-wrap {
+  display: flex;
+  flex-direction: column;
+}
 .sidebar-logo .logo-text {
-  font-family: var(--font-display);
-  font-size: 21px;
-  font-weight: 700;
-  background: linear-gradient(90deg, #ffffff 0%, #f0c99f 100%);
+  font-family: var(--font-main);
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  display: flex;
+  align-items: center;
+  line-height: 1.1;
+}
+.sidebar-logo .logo-apex {
+  color: #ffffff;
+  text-shadow: 0 2px 10px rgba(255,255,255,0.15);
+}
+.sidebar-logo .logo-forge {
+  background: linear-gradient(135deg, #f59e0b 0%, #e07a5f 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: -0.4px;
+  margin-left: 2px;
 }
 .sidebar-logo .logo-sub {
-  font-size: 9.5px;
+  font-size: 9px;
   color: var(--text-muted);
-  letter-spacing: 1.6px;
+  letter-spacing: 1.8px;
   text-transform: uppercase;
-  margin-top: 2px;
-  font-weight: 600;
+  margin-top: 4px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.logo-live-dot {
+  width: 5px;
+  height: 5px;
+  background: #10b981;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #10b981;
+  animation: livePulse 1.8s infinite;
+}
+@keyframes livePulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.7); }
+}
+/* Forge Particle Spark Burst */
+.forge-particle {
+  position: absolute;
+  pointer-events: none;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fbbf24 0%, #d97706 100%);
+  box-shadow: 0 0 6px #f59e0b;
+  animation: particleFly 0.6s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+  z-index: 99;
+}
+@keyframes particleFly {
+  0% { transform: translate(0, 0) scale(1); opacity: 1; }
+  100% { transform: translate(var(--dx), var(--dy)) scale(0); opacity: 0; }
 }
 .sidebar-nav { flex: 1; padding: 16px 12px; overflow-y: auto; }
 .nav-section-label {
@@ -215,7 +297,7 @@ body {
 .page-content {
   padding: 32px 36px;
   flex: 1;
-  max-width: 1100px;
+  max-width: 1400px;
   width: 100%;
 }
 .page { display: none; }
@@ -1177,17 +1259,394 @@ body {
         background-color: #ffffff;
         color: #1e1e1e;
     }
+
+/* ===== AI FEATURES CSS ===== */
+/* AI Chatbot Drawer */
+#ai-chat-drawer {
+  position: fixed; right: 0; top: 0; bottom: 0;
+  width: 400px; max-width: 95vw;
+  background: var(--bg-card);
+  border-left: 1px solid var(--border);
+  box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+  z-index: 9000; display: flex; flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#ai-chat-drawer.open { transform: translateX(0); }
+.ai-drawer-header {
+  padding: 18px 20px; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  color: #fff; flex-shrink: 0;
+}
+.ai-drawer-title { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.ai-status-dot { width: 8px; height: 8px; border-radius: 50%; background: #4ade80; animation: aiPulse 2s infinite; flex-shrink: 0; }
+@keyframes aiPulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(1.3);} }
+.ai-drawer-close { background: rgba(255,255,255,0.1); border: none; color: #fff; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; font-size: 16px; display:flex;align-items:center;justify-content:center; }
+.ai-drawer-close:hover { background: rgba(255,255,255,0.2); }
+#ai-chat-messages {
+  flex: 1; overflow-y: auto; padding: 16px;
+  display: flex; flex-direction: column; gap: 12px;
+}
+.ai-msg { display: flex; gap: 10px; align-items: flex-start; animation: msgSlideIn 0.2s ease; }
+@keyframes msgSlideIn { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:translateY(0);} }
+.ai-msg.user { flex-direction: row-reverse; }
+.ai-msg-avatar {
+  width: 32px; height: 32px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 16px;
+}
+.ai-msg.ai .ai-msg-avatar { background: linear-gradient(135deg, #1a1a2e, #4c1d95); }
+.ai-msg.user .ai-msg-avatar { background: var(--accent-primary); }
+.ai-msg-bubble {
+  max-width: 80%; padding: 10px 14px; border-radius: 14px;
+  font-size: 13px; line-height: 1.55;
+}
+.ai-msg.ai .ai-msg-bubble { background: var(--bg-base); color: var(--text-primary); border-radius: 4px 14px 14px 14px; border: 1px solid var(--border-light); }
+.ai-msg.user .ai-msg-bubble { background: var(--accent-primary); color: #fff; border-radius: 14px 4px 14px 14px; }
+.ai-typing-indicator { display: flex; gap: 4px; padding: 10px 14px; }
+.ai-typing-indicator span { width: 7px; height: 7px; background: var(--text-muted); border-radius: 50%; animation: typing 1.2s infinite; }
+.ai-typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.ai-typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes typing { 0%,60%,100%{transform:translateY(0);} 30%{transform:translateY(-8px);} }
+.ai-chat-input-wrap {
+  padding: 14px 16px; border-top: 1px solid var(--border);
+  display: flex; gap: 8px; flex-shrink: 0; background: var(--bg-card);
+}
+#ai-chat-input {
+  flex: 1; border: 1px solid var(--border); border-radius: 12px;
+  padding: 10px 14px; font-size: 13px; background: var(--bg-base);
+  color: var(--text-primary); font-family: var(--font-main); resize: none;
+  outline: none; max-height: 120px; min-height: 42px;
+}
+#ai-chat-input:focus { border-color: var(--accent-primary); }
+#ai-send-btn {
+  background: linear-gradient(135deg, #4c1d95, #7c3aed);
+  color: #fff; border: none; border-radius: 12px;
+  width: 42px; height: 42px; cursor: pointer; font-size: 18px;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s; flex-shrink: 0;
+}
+#ai-send-btn:hover { transform: scale(1.08); }
+#ai-send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.ai-quick-chips { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 16px 10px; flex-shrink: 0; }
+.ai-chip {
+  font-size: 11px; padding: 5px 10px; border-radius: 99px;
+  background: var(--bg-base); border: 1px solid var(--border);
+  color: var(--text-secondary); cursor: pointer; transition: all 0.15s;
+  font-family: var(--font-main); white-space: nowrap;
+}
+.ai-chip:hover { background: rgba(124,58,237,0.1); border-color: #7c3aed; color: #7c3aed; }
+
+/* AI Sidebar Ask Button */
+.ai-ask-btn {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; margin: 0 12px 12px;
+  background: linear-gradient(135deg, rgba(76,29,149,0.4) 0%, rgba(124,58,237,0.25) 100%);
+  border: 1px solid rgba(124,58,237,0.4); border-radius: 10px;
+  cursor: pointer; color: #c4b5fd; font-size: 13px; font-weight: 500;
+  transition: all 0.2s; user-select: none;
+}
+.ai-ask-btn:hover { background: rgba(124,58,237,0.4); border-color: #7c3aed; color: #ede9fe; }
+.ai-ask-btn .ai-btn-dot { width: 8px; height: 8px; background: #4ade80; border-radius: 50%; animation: aiPulse 2s infinite; flex-shrink: 0; }
+
+/* AI Cards */
+.ai-card {
+  background: linear-gradient(135deg, rgba(76,29,149,0.06) 0%, rgba(124,58,237,0.04) 100%);
+  border: 1px solid rgba(124,58,237,0.2); border-radius: var(--radius-md);
+  padding: 20px 24px;
+}
+.ai-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.ai-card-title { font-size: 12px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; color: #7c3aed; display: flex; align-items: center; gap: 6px; }
+.ai-output {
+  font-size: 13.5px; color: var(--text-primary); line-height: 1.7;
+  min-height: 40px; white-space: pre-wrap;
+}
+.ai-output.loading { color: var(--text-muted); font-style: italic; }
+.ai-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 16px; border-radius: 8px; font-size: 12.5px; font-weight: 600;
+  cursor: pointer; border: none; transition: all 0.2s;
+  background: linear-gradient(135deg, #4c1d95, #7c3aed); color: #fff;
+  font-family: var(--font-main);
+}
+.ai-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(124,58,237,0.4); }
+.ai-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+.ai-btn-sm { padding: 6px 12px; font-size: 11.5px; }
+.ai-btn-outline {
+  background: transparent; color: #7c3aed;
+  border: 1.5px solid rgba(124,58,237,0.4);
+}
+.ai-btn-outline:hover { background: rgba(124,58,237,0.1); box-shadow: none; }
+
+/* Quiz Modal */
+#ai-quiz-modal .modal-box { max-width: 600px; }
+.quiz-q { font-size: 15px; font-weight: 600; color: var(--text-primary); margin-bottom: 16px; line-height: 1.5; }
+.quiz-options { display: flex; flex-direction: column; gap: 10px; }
+.quiz-option {
+  padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 10px;
+  cursor: pointer; font-size: 13.5px; color: var(--text-primary);
+  transition: all 0.15s; text-align: left; background: var(--bg-base);
+  font-family: var(--font-main); display: flex; align-items: center; gap: 10px;
+}
+.quiz-option:hover { border-color: #7c3aed; background: rgba(124,58,237,0.06); }
+.quiz-option.correct { background: rgba(74,222,128,0.12); border-color: #4ade80; color: #166534; }
+.quiz-option.wrong { background: rgba(248,113,113,0.12); border-color: #f87171; color: #991b1b; }
+.quiz-option.disabled { pointer-events: none; }
+.quiz-progress { display: flex; gap: 6px; margin-bottom: 20px; }
+.quiz-dot { width: 28px; height: 6px; border-radius: 3px; background: var(--border); transition: background 0.3s; }
+.quiz-dot.done { background: #4ade80; }
+.quiz-dot.current { background: #7c3aed; }
+.quiz-score-ring { text-align: center; padding: 24px 0; }
+.quiz-score-num { font-size: 56px; font-weight: 800; font-family: var(--font-display); color: #7c3aed; }
+
+/* AI Settings group */
+.ai-key-input {
+  flex: 1; font-family: var(--font-mono); font-size: 12px;
+  padding: 8px 12px; border: 1px solid var(--border);
+  border-radius: 8px; background: var(--bg-base); color: var(--text-primary);
+  outline: none;
+}
+.ai-key-input:focus { border-color: #7c3aed; }
+
+/* Overlay backdrop for chatbot */
+#ai-drawer-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,0.3);
+  z-index: 8999; display: none; backdrop-filter: blur(2px);
+}
+#ai-drawer-backdrop.show { display: block; }
+
+/* AI inline loader */
+.ai-spinner {
+  display: inline-block; width: 14px; height: 14px;
+  border: 2px solid rgba(124,58,237,0.3); border-top-color: #7c3aed;
+  border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 6px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Weak topic alert */
+.weak-topic-alert {
+  display: flex; gap: 12px; align-items: flex-start;
+  padding: 12px 16px; border-radius: 10px; margin-bottom: 10px;
+  background: rgba(251,113,133,0.1); border: 1px solid rgba(251,113,133,0.3);
+}
+.weak-topic-alert.medium { background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.3); }
+.weak-topic-alert.low { background: rgba(74,222,128,0.08); border-color: rgba(74,222,128,0.2); }
+
+/* ===== HIGHLY ANIMATED & RESPONSIVE DASHBOARD ENGINE ===== */
+#page-dashboard {
+  animation: dashboardFadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes dashboardFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Dashboard Cards Dynamic Hover & Glassmorphism */
+#page-dashboard .card {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+}
+#page-dashboard .card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 50%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.75s ease;
+  pointer-events: none;
+}
+#page-dashboard .card:hover::before {
+  left: 150%;
+}
+#page-dashboard .card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.08), 0 4px 12px rgba(193, 124, 62, 0.1);
+  border-color: rgba(193, 124, 62, 0.3);
+}
+
+/* Interactive Stat Cards Icon Bounce & Glow */
+.stat-card {
+  cursor: pointer;
+}
+.stat-card:hover .card-icon {
+  transform: scale(1.25) rotate(10deg);
+  opacity: 0.35;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.stat-card .card-value {
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+.stat-card:hover .card-value {
+  color: var(--accent-primary);
+  transform: scale(1.03);
+}
+
+/* Hero Progress Glow & Shimmer */
+.overall-progress-card {
+  position: relative;
+  background: linear-gradient(135deg, #1c1917 0%, #292524 100%) !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.15) !important;
+  border: 1px solid rgba(255,255,255,0.08) !important;
+}
+.overall-progress-card::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; right: -20px;
+  width: 140px; height: 140px;
+  background: radial-gradient(circle, rgba(193,124,62,0.25) 0%, transparent 70%);
+  pointer-events: none;
+  animation: pulseGlow 4s ease-in-out infinite alternate;
+}
+@keyframes pulseGlow {
+  0% { transform: scale(0.9); opacity: 0.5; }
+  100% { transform: scale(1.2); opacity: 0.9; }
+}
+
+/* Animated Progress Bars */
+.progress-bar-fill {
+  position: relative;
+  overflow: hidden;
+}
+.progress-bar-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%);
+  animation: barShimmer 2.5s infinite linear;
+}
+@keyframes barShimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Todo items Smooth Stagger & Hover Animation */
+#today-todo-list .todo-item {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-light);
+  background: var(--bg-card);
+}
+#today-todo-list .todo-item:hover {
+  transform: translateX(4px);
+  border-color: var(--accent-primary);
+  background: var(--bg-base);
+}
+
+/* Pulse indicator badge */
+#dash-hard-day-badge {
+  animation: badgePulse 2s infinite ease-in-out;
+}
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.06); box-shadow: 0 0 10px rgba(224,122,95,0.6); }
+}
+
+/* ===== HIGHLY RESPONSIVE MEDIA QUERIES ===== */
+@media (max-width: 1024px) {
+  .page-content {
+    padding: 24px 20px;
+  }
+  .grid-4 {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --sidebar-width: 0px;
+  }
+  #sidebar {
+    transform: translateX(-100%);
+  }
+  #sidebar.mobile-open {
+    transform: translateX(0);
+    width: 260px;
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+  }
+  #main {
+    margin-left: 0;
+  }
+  .topbar {
+    padding: 14px 18px;
+  }
+  .page-content {
+    padding: 16px 14px;
+  }
+  .grid-4, .grid-3, .grid-2 {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .overall-progress-card .card-value {
+    font-size: 36px;
+  }
+  .global-search-input {
+    width: 140px;
+  }
+  .global-search-input:focus {
+    width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .topbar-title {
+    font-size: 14px;
+  }
+  .page-header h1 {
+    font-size: 24px;
+  }
+  .card {
+    padding: 16px 16px;
+  }
+  .countdown-val {
+    font-size: 24px;
+  }
+}
+
+
 </style>
+
 </head>
 <body>
 
 <!-- SIDEBAR -->
 <nav id="sidebar">
-  <div class="sidebar-logo">
-    <div class="animated-logo-icon">⚡</div>
-    <div>
-      <div class="logo-text">ApexForge</div>
-      <div class="logo-sub">Exam Tracker Pro</div>
+  <div class="sidebar-logo" id="apexForgeLogo" title="ApexForge — Click for Forge Burst!">
+    <div class="apex-logo-container">
+      <div class="apex-logo-card" id="apexLogoCard">
+        <svg class="apex-logo-svg" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="apexGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#f59e0b" />
+              <stop offset="100%" stop-color="#e07a5f" />
+            </linearGradient>
+            <linearGradient id="apexGrad2" x1="0%" y1="100%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9" />
+              <stop offset="100%" stop-color="#fef3c7" stop-opacity="0.3" />
+            </linearGradient>
+          </defs>
+          <!-- Rotating Dash Ring -->
+          <circle class="apex-ring" cx="24" cy="24" r="20" stroke="url(#apexGrad1)" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.6" />
+          <!-- Apex Pyramid / Forge Anvil Geometry -->
+          <path class="apex-flame" d="M24 8L36 34H12L24 8Z" fill="url(#apexGrad1)" />
+          <path d="M24 13L32 32H16L24 13Z" fill="url(#apexGrad2)" />
+          <!-- Inner Core Spark -->
+          <path class="apex-spark" d="M24 18L26.5 23.5L32 24L26.5 24.5L24 30L21.5 24.5L16 24L21.5 23.5L24 18Z" fill="#ffffff" />
+        </svg>
+      </div>
+    </div>
+    <div class="logo-brand-wrap">
+      <div class="logo-text">
+        <span class="logo-apex">APEX</span>
+        <span class="logo-forge">FORGE</span>
+      </div>
+      <div class="logo-sub">
+        <span class="logo-live-dot"></span> EXAM TRACKER PRO
+      </div>
     </div>
   </div>
   <div class="sidebar-nav">
@@ -1222,6 +1681,9 @@ body {
     <div class="nav-item" data-page="analytics">
       <span class="nav-icon">◫</span> Analytics
     </div>
+    <div class="nav-item" data-page="practice-tests">
+      <span class="nav-icon">⚡</span> Practice Tests
+    </div>
     <div class="nav-item" data-page="mock-tests">
       <span class="nav-icon">📈</span> Mock Test Hub
     </div>
@@ -1248,6 +1710,12 @@ body {
       </div>
     </div>
   </div>
+  <!-- AI Ask Button -->
+  <div class="ai-ask-btn" onclick="openAIChat()">
+    <span class="ai-btn-dot"></span>
+    <span>🤖 Ask AI Tutor</span>
+    <span style="margin-left:auto;font-size:10px;opacity:0.7;">Gemini</span>
+  </div>
 </nav>
 
 <!-- MAIN -->
@@ -1264,6 +1732,7 @@ body {
     </div>
     <div class="topbar-actions">
       <button class="btn btn-secondary btn-sm" onclick="quickLog()">+ Quick Log</button>
+      <button class="btn btn-secondary btn-sm" id="dark-mode-toggle" onclick="toggleDarkMode()" title="Toggle Dark Mode" style="font-size:18px;padding:5px 10px;line-height:1;border-radius:8px;">🌙</button>
     </div>
   </div>
 
@@ -1276,57 +1745,90 @@ body {
         <div id="dash-focus-widget"></div>
       </div>
 
-      <!-- 75 DAYS HARD DASHBOARD WIDGET -->
-      <div class="card" style="margin-bottom: 24px; background: linear-gradient(135deg, rgba(193,124,62,0.1) 0%, rgba(30,28,26,0.03) 100%); border-left: 4px solid #e07a5f;">
-        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+      <!-- DASHBOARD 2x2 WIDGET GRID (AI Planner, Weak Topics, 75 Days Hard, To-Do List) -->
+      <div class="grid-2" style="margin-bottom:24px; gap:20px;">
+
+        <!-- 1. AI STUDY PLANNER CARD -->
+        <div class="ai-card" style="margin:0; display:flex; flex-direction:column; justify-content:space-between; min-height:220px;">
+          <div class="ai-card-header">
+            <div class="ai-card-title">📅 AI Study Planner</div>
+            <button class="ai-btn ai-btn-sm" onclick="generateStudyPlan()" id="ai-plan-btn">🗓️ Plan Today</button>
+          </div>
+          <div class="ai-output" id="ai-plan-output" style="font-size:13px; flex:1; display:flex; align-items:center;">
+            <span style="color:var(--text-muted);font-style:italic;">Click "Plan Today" for an AI-generated daily study schedule based on your weak topics...</span>
+          </div>
+        </div>
+
+        <!-- 2. AI WEAK TOPIC DETECTOR -->
+        <div class="ai-card" style="margin:0; display:flex; flex-direction:column; justify-content:space-between; min-height:220px;" id="ai-weak-card">
+          <div class="ai-card-header">
+            <div class="ai-card-title">🎯 Weak Topic Detector</div>
+            <button class="ai-btn ai-btn-sm" onclick="detectWeakTopics()" id="ai-weak-btn">🔍 Analyze Now</button>
+          </div>
+          <div id="ai-weak-output" style="flex:1; display:flex; align-items:center;">
+            <span style="color:var(--text-muted);font-size:13px;font-style:italic;">AI will analyze your progress across all topics and identify where you need to focus more...</span>
+          </div>
+        </div>
+
+        <!-- 3. 75 DAYS HARD DASHBOARD WIDGET -->
+        <div class="card" style="margin:0; background: linear-gradient(135deg, rgba(193,124,62,0.1) 0%, rgba(30,28,26,0.03) 100%); border-left: 4px solid #e07a5f; display:flex; flex-direction:column; justify-content:space-between; min-height:240px;">
           <div>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <span style="font-size:20px;">🔥</span>
-              <h3 style="font-size:16px; font-weight:700; font-family:var(--font-display); color:var(--text-primary);">75 Days Hard Challenge</h3>
-              <span style="font-size:11px; background:#e07a5f; color:#fff; padding:2px 8px; border-radius:99px; font-weight:700;" id="dash-hard-day-badge">Day 1 / 75</span>
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;">
+              <div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <span style="font-size:20px;">🔥</span>
+                  <h3 style="font-size:15px; font-weight:700; font-family:var(--font-display); color:var(--text-primary);">75 Days Hard</h3>
+                </div>
+                <div style="font-size:12px; color:var(--text-secondary); margin-top:4px;" id="dash-hard-status-text">Daily 5 discipline rules challenge</div>
+              </div>
+              <span style="font-size:11px; background:#e07a5f; color:#fff; padding:3px 10px; border-radius:99px; font-weight:700;" id="dash-hard-day-badge">Day 1 / 75</span>
             </div>
-            <div style="font-size:12.5px; color:var(--text-secondary); margin-top:4px;" id="dash-hard-status-text">Daily 5 discipline rules challenge for exam victory</div>
-          </div>
-          <div style="display:flex; align-items:center; gap:16px;">
-            <div style="text-align:right;">
-              <div style="font-size:10px; text-transform:uppercase; letter-spacing:1px; color:var(--text-muted); font-weight:600;">Current Streak</div>
-              <div style="font-size:18px; font-weight:800; color:#e07a5f; font-family:var(--font-display);" id="dash-hard-streak">🔥 0 Days</div>
+            
+            <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:var(--radius-sm);">
+              <span style="font-size:11px; text-transform:uppercase; letter-spacing:1px; color:var(--text-muted); font-weight:600;">Current Streak</span>
+              <span style="font-size:16px; font-weight:800; color:#e07a5f; font-family:var(--font-display);" id="dash-hard-streak">🔥 0 Days</span>
             </div>
-            <button class="btn btn-primary btn-sm" onclick="navigate('hard-challenge')" style="background:#e07a5f; border:none;">View Challenge →</button>
           </div>
-        </div>
-        <div style="margin-top:14px; display:flex; align-items:center; gap:12px;">
-          <div class="progress-bar-wrap" style="flex:1; height:6px;">
-            <div class="progress-bar-fill" id="dash-hard-progress-bar" style="width: 0%; background:#e07a5f;"></div>
-          </div>
-          <span style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted);" id="dash-hard-pct-txt">0% Done</span>
-        </div>
-      </div>
 
-      <!-- TODAY'S TO-DO LIST WIDGET -->
-      <div class="card" style="margin-bottom: 24px; border-left: 4px solid var(--accent-primary);">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 16px;">
           <div>
-            <h3 style="font-size:16px; font-weight:700; font-family:var(--font-display); color:var(--text-primary); display:flex; align-items:center; gap:8px;">
-              <span>✅</span> Today's To-Do List
-            </h3>
-            <div style="font-size:12px; color:var(--text-muted); margin-top:2px;" id="todo-stats-text">0 of 0 tasks completed</div>
-          </div>
-          <div class="progress-bar-wrap" style="width: 140px; height: 8px;">
-            <div class="progress-bar-fill" id="todo-progress-bar" style="width: 0%;"></div>
+            <div style="margin-top:14px; display:flex; align-items:center; gap:12px; margin-bottom:14px;">
+              <div class="progress-bar-wrap" style="flex:1; height:6px;">
+                <div class="progress-bar-fill" id="dash-hard-progress-bar" style="width: 0%; background:#e07a5f;"></div>
+              </div>
+              <span style="font-size:11px; font-family:var(--font-mono); color:var(--text-muted);" id="dash-hard-pct-txt">0% Done</span>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="navigate('hard-challenge')" style="background:#e07a5f; border:none; width:100%; justify-content:center;">View Challenge →</button>
           </div>
         </div>
 
-        <div style="display:flex; gap:10px; margin-bottom: 16px;">
-          <input type="text" id="new-todo-input" placeholder="Aaj ka task enter karein (e.g. Revision Chapter 1)..." 
-            style="flex:1; padding:10px 14px; border:1.5px solid var(--border); border-radius:var(--radius-sm); font-family:var(--font-main); font-size:13.5px; background:var(--input-bg); color:var(--text-primary); outline:none;"
-            onkeydown="if(event.key === 'Enter') addTodayTodo()">
-          <button class="btn btn-primary" onclick="addTodayTodo()">+ Add Task</button>
+        <!-- 4. TODAY'S TO-DO LIST WIDGET -->
+        <div class="card" style="margin:0; border-left: 4px solid var(--accent-primary); display:flex; flex-direction:column; justify-content:space-between; min-height:240px;">
+          <div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 12px;">
+              <div>
+                <h3 style="font-size:15px; font-weight:700; font-family:var(--font-display); color:var(--text-primary); display:flex; align-items:center; gap:8px;">
+                  <span>✅</span> Today's To-Do List
+                </h3>
+                <div style="font-size:11.5px; color:var(--text-muted); margin-top:2px;" id="todo-stats-text">0 of 0 tasks completed</div>
+              </div>
+              <div class="progress-bar-wrap" style="width: 100px; height: 6px;">
+                <div class="progress-bar-fill" id="todo-progress-bar" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:8px; margin-bottom: 12px;">
+              <input type="text" id="new-todo-input" placeholder="Add task (Enter)..." 
+                style="flex:1; padding:8px 12px; border:1.5px solid var(--border); border-radius:var(--radius-sm); font-family:var(--font-main); font-size:12.5px; background:var(--input-bg); color:var(--text-primary); outline:none;"
+                onkeydown="if(event.key === 'Enter') addTodayTodo()">
+              <button class="btn btn-primary btn-sm" onclick="addTodayTodo()">+ Add</button>
+            </div>
+          </div>
+
+          <div id="today-todo-list" style="display:flex; flex-direction:column; gap:6px; max-height:140px; overflow-y:auto; padding-right:4px;">
+            <!-- Dynamic Todo items will render here -->
+          </div>
         </div>
 
-        <div id="today-todo-list" style="display:flex; flex-direction:column; gap:8px;">
-          <!-- Dynamic Todo items will render here -->
-        </div>
       </div>
 
       <div id="dash-weekly-goals"></div>
@@ -1408,148 +1910,7 @@ body {
 
 
     </div>
-    <!-- ===== GATE DA PAGE ===== -->
-    <div class="page" id="page-gate-da">
-      <div class="page-header">
-        <h1>GATE DA 2027</h1>
-        <p>Data Science & Artificial Intelligence · Full syllabus tracker with study roadmap</p>
-      </div>
 
-      <!-- Hero card -->
-      <div class="da-hero">
-        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-          <div>
-            <h2>GATE Data Science & AI — 2027</h2>
-            <p>A structured 10-month plan covering all 8 units of the official GATE DA syllabus.<br>Track topics, subtopics, and link your Pomodoro sessions directly to DA progress.</p>
-          </div>
-          <div class="da-exam-badge">🎯 Exam: Feb 2027</div>
-        </div>
-        <div class="da-hero-meta">
-          <div class="da-meta-chip">📅 Start: <strong>Apr 2026</strong></div>
-          <div class="da-meta-chip">📘 Units: <strong>8</strong></div>
-          <div class="da-meta-chip">📝 Topics: <strong id="da-total-topics-chip">0</strong></div>
-          <div class="da-meta-chip">✅ Done: <strong id="da-done-topics-chip">0</strong></div>
-          <div class="da-meta-chip">📊 Progress: <strong id="da-overall-pct-chip">0%</strong></div>
-        </div>
-        <div style="margin-top:14px;" class="progress-bar-wrap pb-h8">
-          <div class="progress-bar-fill" id="da-overall-bar" style="width:0%;background:var(--da-teal)"></div>
-        </div>
-      </div>
-
-      <!-- DA Stats row -->
-      <div class="da-stats-row">
-        <div class="da-stat-card">
-          <div class="da-stat-val" id="da-stat-done">0</div>
-          <div class="da-stat-lbl">Topics Done</div>
-        </div>
-        <div class="da-stat-card">
-          <div class="da-stat-val" id="da-stat-subtopics">0</div>
-          <div class="da-stat-lbl">Subtopics Done</div>
-        </div>
-        <div class="da-stat-card">
-          <div class="da-stat-val" id="da-stat-pomos">0</div>
-          <div class="da-stat-lbl">DA Pomodoros</div>
-        </div>
-        <div class="da-stat-card">
-          <div class="da-stat-val" id="da-stat-days">—</div>
-          <div class="da-stat-lbl">Days Left</div>
-        </div>
-      </div>
-
-      <!-- Tab layout: Roadmap | Tracker -->
-      <div style="display:flex;gap:8px;margin-bottom:20px;">
-        <button class="timer-mode-btn active" id="da-tab-tracker" onclick="switchDaTab('tracker')">📊 Unit Tracker</button>
-        <button class="timer-mode-btn" id="da-tab-roadmap" onclick="switchDaTab('roadmap')">🗺️ Study Roadmap</button>
-        <button class="timer-mode-btn" id="da-tab-tips" onclick="switchDaTab('tips')">💡 Strategy & Tips</button>
-      </div>
-
-      <!-- TRACKER TAB -->
-      <div id="da-view-tracker">
-        <div class="da-roadmap-grid">
-          <div class="da-sidebar-nav" id="da-unit-nav"></div>
-          <div class="da-unit-content" id="da-unit-content"></div>
-        </div>
-      </div>
-
-      <!-- ROADMAP TAB -->
-      <div id="da-view-roadmap" style="display:none;">
-        <div class="card mb" style="margin-bottom:20px;">
-          <div class="section-title">📅 10-Month Study Roadmap — GATE DA 2027</div>
-          <p style="font-size:12.5px;color:var(--text-muted);margin-bottom:20px;">Detailed phase-wise plan from April 2026 to February 2027. Each phase builds on the previous one.</p>
-          <div class="da-roadmap-timeline" id="da-timeline"></div>
-        </div>
-        <div id="roadmap-container"></div>
-      </div>
-
-      <!-- TIPS TAB -->
-      <div id="da-view-tips" style="display:none;">
-        <div class="grid-2">
-          <div class="card">
-            <div class="section-title">📚 Key Resources</div>
-            <div style="font-size:13px;color:var(--text-secondary);line-height:1.9;">
-              <div>📖 <strong>Mathematics:</strong> NPTEL Linear Algebra, Kreyszig for Engineering Math</div>
-              <div>📖 <strong>Statistics:</strong> Sheldon Ross — Probability & Statistics; Wackerly textbook</div>
-              <div>📖 <strong>ML/AI:</strong> NPTEL ML (IIT M), Bishop PRML, Fast.ai for intuition</div>
-              <div>📖 <strong>Programming:</strong> Geeks for Geeks DSA, Python DS Handbook</div>
-              <div>📖 <strong>PYQs:</strong> MadeEasy GATE DA book + 2023/2024 official papers</div>
-              <div>📖 <strong>Practice:</strong> GATE Overflow (DA section), Testbook, Unacademy</div>
-              <div style="margin-top:12px;">🎥 <strong>YouTube:</strong> NPTEL (Probability & Statistics, Linear Algebra), StatQuest, 3Blue1Brown (essence of LA), Sentdex (Python ML)</div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="section-title">🎯 Exam Strategy</div>
-            <div style="font-size:13px;color:var(--text-secondary);line-height:1.9;">
-              <div>⚡ <strong>High-weight units:</strong> Prob & Stats (15%), ML (15%), Linear Algebra (12%)</div>
-              <div>⚡ <strong>Don't skip:</strong> Calculus & Optimization — forms base for ML derivations</div>
-              <div>⚡ <strong>Coding section:</strong> Solve 5–10 PYQ coding problems per week in Python</div>
-              <div>⚡ <strong>Weekly mock tests:</strong> Start from Month 6 onwards</div>
-              <div>⚡ <strong>Last 3 months:</strong> Full PYQ coverage + 2 full mocks/week</div>
-              <div style="margin-top:12px;">📊 <strong>Topic weightage (approx):</strong></div>
-              <div style="font-size:12px;margin-top:6px;display:flex;flex-wrap:wrap;gap:6px;">
-                <span class="da-tag">Prob & Stats 15%</span>
-                <span class="da-tag purple">ML 15%</span>
-                <span class="da-tag amber">Linear Algebra 12%</span>
-                <span class="da-tag coral">Calculus 10%</span>
-                <span class="da-tag">Programming 10%</span>
-                <span class="da-tag purple">DSA 10%</span>
-                <span class="da-tag amber">AI 10%</span>
-                <span class="da-tag coral">DBMS 8%</span>
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="section-title">⏱️ Daily Study Plan Template</div>
-            <div style="font-size:12.5px;color:var(--text-secondary);line-height:1.9;">
-              <div style="display:grid;grid-template-columns:auto 1fr;gap:4px 14px;">
-                <strong>6:00–8:00</strong><span>Core theory (new topic from tracker)</span>
-                <strong>8:30–10:00</strong><span>Practice problems / PYQs on yesterday's topic</span>
-                <strong>11:00–12:30</strong><span>Secondary subject or weak area revision</span>
-                <strong>3:00–5:00</strong><span>Coding + implementation practice (Python)</span>
-                <strong>6:00–7:00</strong><span>Mock test / previous year paper</span>
-                <strong>8:00–9:00</strong><span>Review notes + update tracker ✅</span>
-              </div>
-              <div style="margin-top:12px;padding:10px;background:var(--da-teal-light);border-radius:6px;font-size:12px;color:var(--da-teal);">
-                💡 Use 25-min Pomodoros for each block. Link them to GATE DA in the Pomodoro timer!
-              </div>
-            </div>
-          </div>
-          <div class="card">
-            <div class="section-title">🏆 GATE DA — Key Differences from GATE CS</div>
-            <div style="font-size:13px;color:var(--text-secondary);line-height:1.9;">
-              <div>🔵 GATE DA is a <strong>separate paper</strong> launched in 2023, distinct from GATE CS</div>
-              <div>🔵 Heavy focus on <strong>Mathematics, Statistics, and ML</strong> — 50%+ of marks</div>
-              <div>🔵 Includes a <strong>coding section</strong> (programming + DS questions)</div>
-              <div>🔵 No Digital Electronics, Computer Organization in DA syllabus</div>
-              <div>🔵 Overlap with GATE CS: DBMS, Algorithms, OS (lighter coverage in DA)</div>
-              <div>🔵 AI section covers Search, CSP, Bayesian Networks — unique to DA</div>
-              <div style="margin-top:10px;padding:10px;background:rgba(233,185,73,0.1);border-radius:6px;font-size:12px;color:#a07a10;">
-                ⚠️ GATE DA 2024 had 65 questions (55 MCQ + 10 coding). Prepare Python heavily!
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- ===== GATE CS PAGE ===== -->
     <div class="page" id="page-gate-cs">
@@ -1843,6 +2204,78 @@ body {
       </div>
     </div>
 
+    <!-- ===== PRACTICE TESTS PAGE ===== -->
+    <div class="page" id="page-practice-tests">
+      <div class="page-header">
+        <h1>Practice Tests</h1>
+        <p>Attempt tests on external portals and automatically log scores in Mock Test Hub</p>
+      </div>
+
+      <div class="grid-2 mb24" style="gap:20px;">
+        <!-- Bijli Test Series Card -->
+        <div class="card" style="display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid var(--accent-primary);">
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+              <span style="font-size:32px;">⚡</span>
+              <span style="background:rgba(193,124,62,0.15);color:var(--accent-primary);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.5px;">LIVE SYNC</span>
+            </div>
+            <h2 style="font-size:20px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">Bijli Test Series</h2>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.5;margin-bottom:16px;">
+              Practice tests created for GATE aspirants. Attempt tests here or directly on Bijli website, and your test scores will sync to Mock Test Hub!
+            </p>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+            <a href="https://bijzlitestseries.netlify.app/" target="_blank" class="btn btn-primary" style="flex:1;justify-content:center;">
+              <span class="nav-icon">↗</span> Open Bijli Portal
+            </a>
+            <button class="btn btn-secondary" onclick="openBijliModal()" style="flex:1;justify-content:center;">
+              <span class="nav-icon">⚡</span> Embedded Test
+            </button>
+            <button class="btn btn-ghost" onclick="quickLogBijliScore()" style="width:100%;text-align:center;justify-content:center;margin-top:4px;font-size:12px;">
+              + Log Bijli Result Manually
+            </button>
+          </div>
+        </div>
+
+        <!-- GO Classes Test Series Card -->
+        <div class="card" style="display:flex;flex-direction:column;justify-content:space-between;border-top:4px solid var(--cs-blue);">
+          <div>
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+              <span style="font-size:32px;">🎓</span>
+              <span style="background:rgba(59,111,212,0.15);color:var(--cs-blue);font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;letter-spacing:0.5px;">RECOMMENDED</span>
+            </div>
+            <h2 style="font-size:20px;font-weight:700;color:var(--text-primary);margin-bottom:8px;">GO Classes Test Series</h2>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.5;margin-bottom:16px;">
+              High yield mock tests for GATE CS & DA subjects by GO Classes. Solve tests on their official portal and log results.
+            </p>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px;">
+            <a href="https://www.goclasses.in/" target="_blank" class="btn btn-primary" style="flex:1;justify-content:center;background:var(--cs-blue);">
+              <span class="nav-icon">🎓</span> Open GO Classes
+            </a>
+            <button class="btn btn-secondary" onclick="quickLogGoClassesScore()" style="flex:1;justify-content:center;">
+              + Log GO Score
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Sync Banner / Helper Info -->
+      <div class="card" style="background:linear-gradient(135deg, rgba(42,157,143,0.08) 0%, rgba(124,111,205,0.08) 100%);border:1px solid var(--da-teal-border);">
+        <div style="display:flex;align-items:flex-start;gap:16px;">
+          <span style="font-size:28px;">ℹ️</span>
+          <div>
+            <h3 style="font-size:15px;font-weight:600;color:var(--text-primary);margin-bottom:4px;">How Test Syncing Works</h3>
+            <p style="font-size:13px;color:var(--text-secondary);line-height:1.5;">
+              1. Click <strong>Open Bijli Portal</strong> or <strong>Embedded Test</strong> to take a practice test.<br>
+              2. When you finish a test on Bijli Test Series, the final marks are automatically dispatched to Exam Tracker.<br>
+              3. You can also view all recorded scores anytime under the <strong>Mock Test Hub</strong> tab in the sidebar!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- ===== MOCK TEST HUB PAGE ===== -->
     <div class="page" id="page-mock-tests">
       <div class="page-header">
@@ -1880,19 +2313,34 @@ body {
           </table>
         </div>
       </div>
+
+      <!-- AI MOCK TEST ANALYZER -->
+      <div class="ai-card mt24">
+        <div class="ai-card-header">
+          <div class="ai-card-title">🤖 AI Mock Test Analyzer</div>
+          <div style="display:flex;gap:8px;">
+            <button class="ai-btn ai-btn-sm" onclick="analyzeMockTests()" id="ai-mock-analyze-btn">📊 Analyze Performance</button>
+            <button class="ai-btn ai-btn-sm ai-btn-outline" onclick="predictGATEScore()" id="ai-predict-btn">🎯 Predict Score</button>
+          </div>
+        </div>
+        <div class="ai-output" id="ai-mock-analysis-output" style="min-height:60px;">
+          <span style="color:var(--text-muted);font-style:italic;font-size:13px;">Add at least 2 mock test results, then click "Analyze Performance" for AI insights on your weak areas, trends, and improvement strategy.</span>
+        </div>
+      </div>
     </div>
 
     <!-- ===== FLASHCARDS PAGE ===== -->
+
     <div class="page" id="page-flashcards">
       <div class="page-header">
         <h1>Formula Deck</h1>
-        <p>Active recall for core GATE DA concepts</p>
+        <p>Active recall for core GATE CS concepts</p>
       </div>
       <div class="card">
         <div class="card-title">Add New Formula Card</div>
         <div class="log-form mt12">
-          <div class="form-group" style="grid-column:1/span 1;"><label>Front (Concept)</label><input type="text" id="fc-front-input" placeholder="e.g. Bayes Theorem"></div>
-          <div class="form-group" style="grid-column:2/span 1;"><label>Back (Formula/Result)</label><input type="text" id="fc-back-input" placeholder="P(A|B) = [P(B|A)P(A)]/P(B)"></div>
+          <div class="form-group" style="grid-column:1/span 1;"><label>Front (Concept)</label><input type="text" id="fc-front-input" placeholder="e.g. Master Theorem"></div>
+          <div class="form-group" style="grid-column:2/span 1;"><label>Back (Formula/Result)</label><input type="text" id="fc-back-input" placeholder="T(n) = aT(n/b) + f(n)"></div>
           <button class="btn btn-primary" onclick="addFlashcard()" style="grid-column:1/-1;margin-top:12px;">Add to Deck</button>
         </div>
       </div>
@@ -1903,16 +2351,11 @@ body {
     <div class="page" id="page-notes">
       <div class="page-header">
         <h1>Study Notes</h1>
-        <p>Capture key concepts, formulas, and insights — organised by exam and unit</p>
+        <p>Capture key GATE CS concepts, formulas, and insights organized by unit</p>
       </div>
       <div class="scratchpad-wrap">
         <div class="card-title">✍️ Quick Scratchpad</div>
         <textarea id="scratchpad" placeholder="Quick thoughts, formulas, or reminders... (auto-saved)" oninput="saveScratchpad()"></textarea>
-      </div>
-      <!-- Exam switcher for notes -->
-      <div style="display:flex;gap:8px;margin-bottom:16px;">
-        <button class="timer-mode-btn active" id="notes-tab-da" onclick="switchNotesExam('da')">◉ GATE DA</button>
-        <button class="timer-mode-btn" id="notes-tab-cs" onclick="switchNotesExam('cs')">💻 GATE CS</button>
       </div>
       <div class="notes-layout">
         <div class="notes-sidebar" id="notes-unit-nav"></div>
@@ -2100,10 +2543,47 @@ body {
             <div style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);background:var(--bg-base);padding:8px 12px;border-radius:6px;width:100%;" id="settings-date-preview"></div>
           </div>
         </div>
+        <div class="settings-group" style="border-top:2px solid rgba(124,58,237,0.3);padding-top:20px;margin-top:4px;">
+          <div class="settings-group-title" style="color:#7c3aed;display:flex;align-items:center;gap:6px;">🤖 AI Settings (Groq / Gemini)</div>
+          
+          <div class="setting-row">
+            <div>
+              <div class="setting-label">AI Provider</div>
+              <div class="setting-desc">Groq is ultra-fast & completely free without strict rate limits</div>
+            </div>
+            <select id="ai-provider-select" class="btn btn-secondary btn-sm" style="width:200px;" onchange="saveAIProvider()">
+              <option value="groq" selected>⚡ Groq Cloud (Recommended)</option>
+              <option value="gemini">✨ Google Gemini</option>
+            </select>
+          </div>
+
+          <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:10px;">
+            <div>
+              <div class="setting-label" id="ai-key-label">Groq API Key</div>
+              <div class="setting-desc" id="ai-key-desc">Get your free Groq key at <a href="https://console.groq.com/keys" target="_blank" style="color:#7c3aed;font-weight:700;">console.groq.com/keys</a></div>
+            </div>
+            <div style="display:flex;gap:8px;width:100%;flex-wrap:wrap;">
+              <input type="password" class="ai-key-input" id="ai-api-key-input" placeholder="gsk_...your-groq-api-key" style="min-width:200px;">
+              <button class="ai-btn ai-btn-sm" onclick="saveAIKey()">Save Key</button>
+              <button class="ai-btn ai-btn-sm ai-btn-outline" onclick="testAIConnection()">Test Connection</button>
+            </div>
+            <div id="ai-key-status" style="font-size:12px;color:var(--text-muted);font-family:var(--font-mono);"></div>
+          </div>
+
+          <div class="setting-row" style="margin-top:8px;">
+            <div>
+              <div class="setting-label">AI Model</div>
+              <div class="setting-desc">Select high accuracy LLM model</div>
+            </div>
+            <select id="ai-model-select" class="btn btn-secondary btn-sm" style="width:220px;" onchange="saveAISettings()">
+              <!-- Dynamic Options rendered by JS -->
+            </select>
+          </div>
+        </div>
         <div class="settings-group">
           <div class="settings-group-title">About</div>
           <div class="setting-row">
-            <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">v3.0 — The Ultimate</span>
+            <span style="font-size:11px;color:var(--text-muted);font-family:var(--font-mono);">v3.0 — The Ultimate (+ AI)</span>
           </div>
         </div>
       </div>
@@ -2226,12 +2706,79 @@ body {
   </div>
 </div>
 
+<!-- BIJLI TEST SERIES MODAL -->
+<div class="modal-overlay" id="bijli-modal" style="padding:10px;">
+  <div style="background:var(--bg-card);border-radius:var(--radius-lg);width:95vw;max-width:1200px;height:90vh;display:flex;flex-direction:column;box-shadow:var(--shadow-lg);border:1px solid var(--border);overflow:hidden;">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:14px 20px;background:var(--bg-sidebar);color:#fff;border-bottom:1px solid rgba(255,255,255,0.1);">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:20px;">⚡</span>
+        <div>
+          <strong style="font-size:15px;color:#fff;">Bijli Test Series Portal</strong>
+          <span style="font-size:11px;color:var(--text-sidebar);display:block;">https://bijzlitestseries.netlify.app/</span>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <button class="btn btn-primary btn-sm" onclick="quickLogBijliScore()">+ Log Score to Mock Hub</button>
+        <button class="btn btn-secondary btn-sm" onclick="closeBijliModal()" style="color:#fff;background:rgba(255,255,255,0.15);border:none;">✕ Close</button>
+      </div>
+    </div>
+    <iframe id="bijli-iframe" src="" style="width:100%;flex:1;border:none;background:#fff;" title="Bijli Test Series"></iframe>
+  </div>
+</div>
+
 <!-- V3.0: FOCUS FAB -->
 <div class="focus-fab" onclick="toggleFocusMode()" title="Focus Mode (Ctrl+Shift+F)">🌙</div>
+
+<!-- AI DRAWER BACKDROP -->
+<div id="ai-drawer-backdrop" onclick="closeAIChat()"></div>
+
+<!-- AI CHATBOT DRAWER -->
+<div id="ai-chat-drawer">
+  <div class="ai-drawer-header">
+    <div class="ai-drawer-title">
+      <span class="ai-status-dot" id="ai-conn-dot"></span>
+      🤖 ApexForge AI Tutor
+    </div>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <span style="font-size:10px;color:rgba(255,255,255,0.5);font-family:var(--font-mono);" id="ai-model-label">gemini-2.0-flash</span>
+      <button class="ai-drawer-close" onclick="closeAIChat()">✕</button>
+    </div>
+  </div>
+  <div id="ai-chat-messages">
+    <div class="ai-msg ai">
+      <div class="ai-msg-avatar">🤖</div>
+      <div class="ai-msg-bubble">
+        नमस्ते! मैं ApexForge AI Tutor हूँ — Gemini द्वारा powered।<br><br>
+        आप मुझसे GATE CS/DA के कोई भी doubts पूछ सकते हैं, topics explain करवा सकते हैं, या अपनी study progress के बारे में बात कर सकते हैं। 🕉️
+      </div>
+    </div>
+  </div>
+  <div class="ai-quick-chips" id="ai-chips">
+    <span class="ai-chip" onclick="aiChipClick(this)">Explain Bayes Theorem</span>
+    <span class="ai-chip" onclick="aiChipClick(this)">What is overfitting?</span>
+    <span class="ai-chip" onclick="aiChipClick(this)">My study plan</span>
+    <span class="ai-chip" onclick="aiChipClick(this)">Motivate me!</span>
+    <span class="ai-chip" onclick="aiChipClick(this)">GATE DA tips</span>
+  </div>
+  <div class="ai-chat-input-wrap">
+    <textarea id="ai-chat-input" placeholder="Ask me anything about GATE..." rows="1" onkeydown="aiChatKeydown(event)"></textarea>
+    <button id="ai-send-btn" onclick="sendAIMessage()">➤</button>
+  </div>
+</div>
+
+<!-- AI QUIZ MODAL -->
+<div class="modal-overlay" id="ai-quiz-modal">
+  <div class="modal-box" style="max-width:620px;width:95%;">
+    <div id="ai-quiz-content">
+      <!-- Quiz content rendered by JS -->
+    </div>
+  </div>
+</div>
 
 <script>
 // ===== GATE DA DATA =====
 const GATE_DA = {
+
   units: [
     {
       id: 'da_u0', name: 'General Aptitude', abbr: 'Aptitude',
@@ -2533,19 +3080,24 @@ const MONTH_PLAN = [
 ];
 
 const QUOTES = [
-  { text: "Success is the sum of small efforts, repeated day in and day out.", author: "Robert Collier" },
-  { text: "The secret of getting ahead is getting started.", author: "Mark Twain" },
-  { text: "Education is not the filling of a pail, but the lighting of a fire.", author: "W.B. Yeats" },
-  { text: "Don't watch the clock; do what it does. Keep going.", author: "Sam Levenson" },
-  { text: "The expert in anything was once a beginner.", author: "Helen Hayes" },
-  { text: "Your future is created by what you do today, not tomorrow.", author: "Robert Kiyosaki" },
-  { text: "It always seems impossible until it's done.", author: "Nelson Mandela" },
-  { text: "The only way to do great work is to love what you do.", author: "Steve Jobs" },
-  { text: "A goal without a plan is just a wish.", author: "Antoine de Saint-Exupéry" },
-  { text: "Perseverance is not a long race; it is many short races one after another.", author: "Walter Elliot" },
-  { text: "Focus on being productive instead of busy.", author: "Tim Ferriss" },
-  { text: "Discipline is the bridge between goals and accomplishment.", author: "Jim Rohn" },
+  { text: "कर्म किए जाओ, फल की चिंता मत करो। जो होगा, अच्छा होगा।", author: "श्रीमद्भगवद्गीता — अध्याय 2" },
+  { text: "Do your duty without attachment to its results. That is the path of the wise.", author: "Bhagavad Gita — Chapter 2.47" },
+  { text: "उद्धरेत् आत्मनात्मानम् — उठाओ खुद को अपने आप से, कभी नीचे मत गिरने दो।", author: "श्रीमद्भगवद्गीता — अध्याय 6" },
+  { text: "The self is the friend of the self for him who has conquered himself by the self.", author: "Bhagavad Gita — Chapter 6.6" },
+  { text: "न हि ज्ञानेन सदृशं पवित्रम् इह विद्यते — ज्ञान से बड़ा कोई पवित्र नहीं।", author: "श्रीमद्भगवद्गीता — अध्याय 4" },
+  { text: "There is nothing in this world as purifying as knowledge. One who becomes perfected in yoga finds this knowledge within himself in due time.", author: "Bhagavad Gita — Chapter 4.38" },
+  { text: "श्रेयान् स्वधर्मो विगुणः परधर्मात् स्वनुष्ठितात् — अपना काम अधूरा भी श्रेष्ठ है।", author: "श्रीमद्भगवद्गीता — अध्याय 18" },
+  { text: "Arise, awake and stop not till the goal is reached.", author: "Swami Vivekananda (Gita-inspired)" },
+  { text: "सत्य ही परम धर्म है, असत्य से कभी विजय नहीं मिलती।", author: "वाल्मीकि रामायण" },
+  { text: "The man who abandons all desires and moves free from longing, without 'I' and without 'mine' — he comes to peace.", author: "Bhagavad Gita — Chapter 2.71" },
+  { text: "राम नाम ही सबसे बड़ा बल है — धैर्य रखो, सत्य का मार्ग कभी विफल नहीं होता।", author: "वाल्मीकि रामायण — सुंदरकांड" },
+  { text: "Even if you are the greatest sinner, you can cross all evil by the boat of knowledge.", author: "Bhagavad Gita — Chapter 4.36" },
+  { text: "जो बीत गई सो बात गई। अब जो है उस पर ध्यान दो और कर्म करते रहो।", author: "भगवद्गीता — अध्याय 2" },
+  { text: "विनाशकाले विपरीत बुद्धि। संकट में धैर्य ही सबसे बड़ी शक्ति है।", author: "रामायण" },
+  { text: "He who is not disturbed in mind, even amidst threefold misery, is the best of those who know happiness.", author: "Bhagavad Gita — Chapter 2.56" },
+  { text: "बाधाएं आती हैं, रुकना नहीं — श्री राम ने भी 14 वर्ष वन में बिताए, फिर भी धर्म न छोड़ा।", author: "वाल्मीकि रामायण" },
 ];
+
 
 function getDefaultState() {
   return {
@@ -2703,6 +3255,88 @@ function getLastPage() {
   try { return localStorage.getItem('sf_page') || 'dashboard'; } catch(e) { return 'dashboard'; }
 }
 
+// ===== LOGO INTERACTIVITY (3D Tilt + Particle Burst + Sound Synthesis) =====
+(function initInteractiveLogo() {
+  const logoEl = document.getElementById('apexForgeLogo');
+  const cardEl = document.getElementById('apexLogoCard');
+  if (!logoEl || !cardEl) return;
+
+  // Web Audio Context for spark sound (crafted synthesize, no external assets required)
+  let audioCtx = null;
+  function playSparkSound() {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(440, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.08);
+      
+      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
+      
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.12);
+    } catch(e){}
+  }
+
+  // 3D Tilt calculation based on mouse cursor inside logo container
+  logoEl.addEventListener('mousemove', (e) => {
+    const rect = logoEl.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateX = ((y - centerY) / centerY) * -18; // Max 18 deg X
+    const rotateY = ((x - centerX) / centerX) * 18;  // Max 18 deg Y
+    
+    cardEl.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.08, 1.08, 1.08)`;
+  });
+
+  logoEl.addEventListener('mouseleave', () => {
+    cardEl.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+  });
+
+  // Particle Burst on click
+  logoEl.addEventListener('click', (e) => {
+    playSparkSound();
+
+    const rect = logoEl.getBoundingClientRect();
+    const clickX = e.clientX - rect.left;
+    const clickY = e.clientY - rect.top;
+
+    for (let i = 0; i < 14; i++) {
+      const p = document.createElement('div');
+      p.className = 'forge-particle';
+      
+      const size = Math.random() * 6 + 3;
+      p.style.width = size + 'px';
+      p.style.height = size + 'px';
+      p.style.left = clickX + 'px';
+      p.style.top = clickY + 'px';
+      
+      const angle = Math.random() * Math.PI * 2;
+      const dist = Math.random() * 45 + 20;
+      const dx = Math.cos(angle) * dist + 'px';
+      const dy = Math.sin(angle) * dist + 'px';
+      
+      p.style.setProperty('--dx', dx);
+      p.style.setProperty('--dy', dy);
+      
+      logoEl.appendChild(p);
+      setTimeout(() => p.remove(), 600);
+    }
+  });
+})();
+
 // ===== NAVIGATION =====
 let currentPage = 'dashboard';
 function navigate(page) {
@@ -2716,7 +3350,7 @@ function navigate(page) {
     pomodoro: 'Pomodoro Timer', logs: 'Study Logs',
     analytics: 'Analytics', settings: 'Settings',
     notes: 'Study Notes Hub', goals: 'Weekly Goals', pyq: 'PYQ Tracker',
-    'mock-tests': 'Mock Test Hub', flashcards: 'Formula Deck'
+    'practice-tests': 'Practice Tests', 'mock-tests': 'Mock Test Hub', flashcards: 'Formula Deck'
   }[page] || page;
   currentPage = page;
   saveLastPage(page);
@@ -2730,6 +3364,7 @@ function navigate(page) {
   if (page === 'notes') renderNotesHub();
   if (page === 'goals') renderWeeklyGoals();
   if (page === 'pyq') renderPyqTracker();
+  if (page === 'practice-tests') renderPracticeTests();
   if (page === 'mock-tests') renderMockTests();
   if (page === 'flashcards') renderFlashcards();
   if (page === 'analytics') { renderAnalytics(); renderHeatmap(); }
@@ -3937,6 +4572,21 @@ function applyTheme(themeId) {
   Object.keys(theme).forEach(key => {
     document.documentElement.style.setProperty(key, theme[key]);
   });
+  // Sync dark mode toggle icon
+  const btn = document.getElementById('dark-mode-toggle');
+  if (btn) btn.textContent = (themeId === 'dark' || themeId === 'neon') ? '☀️' : '🌙';
+}
+
+function toggleDarkMode() {
+  const isDark = (state.theme === 'dark' || state.theme === 'neon');
+  const newTheme = isDark ? 'desert' : 'dark';
+  state.theme = newTheme;
+  applyTheme(newTheme);
+  // Sync settings select if on settings page
+  const sel = document.getElementById('theme-select');
+  if (sel) sel.value = newTheme;
+  saveState();
+  showToast(isDark ? '☀️ Light mode — Desert' : '🌙 Dark mode enabled!');
 }
 
 function getGreeting() {
@@ -3957,21 +4607,13 @@ function showToast(msg) {
 
 // ===== V3.0: STUDY NOTES HUB =====
 let currentNotesUnit = 0;
-let currentNotesExam = 'da'; // 'da' | 'cs'
-
-function switchNotesExam(exam) {
-  currentNotesExam = exam;
-  currentNotesUnit = 0;
-  document.getElementById('notes-tab-da').classList.toggle('active', exam === 'da');
-  document.getElementById('notes-tab-cs').classList.toggle('active', exam === 'cs');
-  renderNotesHub();
-}
+let currentNotesExam = 'cs'; // 'cs'
 
 function renderNotesHub() {
   const nav = document.getElementById('notes-unit-nav');
   const scratch = document.getElementById('scratchpad');
   if (scratch) scratch.value = state.scratchpad || '';
-  const units = currentNotesExam === 'cs' ? GATE_CS.units : GATE_DA.units;
+  const units = GATE_CS.units;
   nav.innerHTML = units.map((u, i) => {
     const count = (state.notes || []).filter(n => n.unitId === u.id).length;
     const activeColor = currentNotesExam === 'cs' ? 'var(--cs-blue)' : 'var(--accent-primary)';
@@ -5024,6 +5666,85 @@ function renderMockChart(tests) {
   `;
 }
 
+// ===== PRACTICE TESTS & SYNC LOGIC =====
+function renderPracticeTests() {
+  // Practice tests view state management
+}
+
+function openBijliModal() {
+  const modal = document.getElementById('bijli-modal');
+  const iframe = document.getElementById('bijli-iframe');
+  if (modal && iframe) {
+    if (!iframe.src || iframe.src === 'about:blank' || iframe.src !== 'https://bijzlitestseries.netlify.app/') {
+      iframe.src = 'https://bijzlitestseries.netlify.app/';
+    }
+    modal.classList.add('show');
+  }
+}
+
+function closeBijliModal() {
+  const modal = document.getElementById('bijli-modal');
+  if (modal) modal.classList.remove('show');
+}
+
+function saveMockResultFromExternal(name, marks, correct, incorrect, time) {
+  if (!state.mockTests) state.mockTests = [];
+  state.mockTests.push({
+    id: Date.now(),
+    name: name || 'Bijli Test Series',
+    date: today(),
+    marks: parseFloat(marks) || 0,
+    correct: parseInt(correct) || 0,
+    incorrect: parseInt(incorrect) || 0,
+    time: parseInt(time) || 0
+  });
+  state.mockTests.sort((a,b) => new Date(a.date) - new Date(b.date));
+  saveState();
+  if (currentPage === 'mock-tests') renderMockTests();
+  updateXP(50);
+  showToast(`Score (${marks} marks) saved to Mock Test Hub! 📈`);
+}
+
+function quickLogBijliScore() {
+  const name = prompt("Enter Bijli Test Name:", "Bijli Test Series");
+  if (!name) return;
+  const marksStr = prompt("Enter Marks scored (out of 100):");
+  if (marksStr === null || marksStr.trim() === "") return;
+  const marks = parseFloat(marksStr);
+  if (isNaN(marks)) { alert("Please enter valid marks!"); return; }
+  const correct = parseInt(prompt("Number of Correct Questions:", "0") || "0");
+  const incorrect = parseInt(prompt("Number of Incorrect Questions:", "0") || "0");
+  const time = parseInt(prompt("Time taken in minutes:", "60") || "60");
+
+  saveMockResultFromExternal(name, marks, correct, incorrect, time);
+}
+
+function quickLogGoClassesScore() {
+  const name = prompt("Enter GO Classes Test Name:", "GO Classes Test Series");
+  if (!name) return;
+  const marksStr = prompt("Enter Marks scored (out of 100):");
+  if (marksStr === null || marksStr.trim() === "") return;
+  const marks = parseFloat(marksStr);
+  if (isNaN(marks)) { alert("Please enter valid marks!"); return; }
+  const correct = parseInt(prompt("Number of Correct Questions:", "0") || "0");
+  const incorrect = parseInt(prompt("Number of Incorrect Questions:", "0") || "0");
+  const time = parseInt(prompt("Time taken in minutes:", "60") || "60");
+
+  saveMockResultFromExternal(name, marks, correct, incorrect, time);
+}
+
+// Window Message Listener for Live PostMessage Syncing
+window.addEventListener('message', function(event) {
+  if (event.data && (event.data.type === 'BIJLI_TEST_RESULT' || event.data.type === 'MOCK_TEST_RESULT' || event.data.type === 'TEST_COMPLETE')) {
+    const d = event.data;
+    const testName = d.testName || d.name || 'Bijli Test Series';
+    const marks = d.marks !== undefined ? d.marks : d.score;
+    if (marks !== undefined) {
+      saveMockResultFromExternal(testName, marks, d.correct || 0, d.incorrect || 0, d.time || d.totalTime || 0);
+    }
+  }
+});
+
 // ===== GATE CS LOGIC =====
 let currentCsUnit = 0;
 let currentCsTab = 'tracker';
@@ -6017,7 +6738,735 @@ renderHardChallenge();
 </div>
 
 <!-- ===== PWA SERVICE WORKER REGISTRATION ===== -->
+
+<!-- ===== 🤖 GEMINI AI ENGINE ===== -->
 <script>
+// ========================================================
+// APEXFORGE AI ENGINE — Powered by Google Gemini
+// ========================================================
+
+// ---- Core State ----
+let AI_PROVIDER = localStorage.getItem('apexforge_ai_provider') || window.ENV_CONFIG?.AI_PROVIDER || 'groq'; // 'groq' | 'gemini'
+let AI_KEY = localStorage.getItem('apexforge_ai_key') || window.ENV_CONFIG?.GROQ_API_KEY || '';
+let AI_MODEL = localStorage.getItem('apexforge_ai_model') || window.ENV_CONFIG?.AI_MODEL || (AI_PROVIDER === 'groq' ? 'llama-3.3-70b-versatile' : 'gemini-1.5-flash');
+let aiChatHistory = [];
+let aiIsGenerating = false;
+let currentQuizData = null;
+let currentQuizIndex = 0;
+let quizAnswers = [];
+
+// Provider Models List
+const GROQ_MODELS = [
+  { id: 'llama-3.3-70b-versatile', name: '⚡ LLaMA 3.3 70B (Fast & High Accuracy)' },
+  { id: 'deepseek-r1-distill-llama-70b', name: '🧠 DeepSeek R1 70B (Deep Reasoning)' },
+  { id: 'llama-3.1-8b-instant', name: '🚀 LLaMA 3.1 8B (Instant Speed)' },
+  { id: 'mixtral-8x7b-32768', name: '📚 Mixtral 8x7B (Large Context)' }
+];
+
+const GEMINI_MODELS = [
+  { id: 'gemini-1.5-flash', name: 'gemini-1.5-flash ✅ Free' },
+  { id: 'gemini-2.0-flash', name: 'gemini-2.0-flash' },
+  { id: 'gemini-1.5-pro', name: 'gemini-1.5-pro 💎 Pro' }
+];
+
+// ---- Helper delay ----
+const sleep = (ms) => new Promise(res => setTimeout(res, ms));
+
+// ---- Groq Cloud API Call ----
+async function callGroqAPI(prompt, systemPrompt = '') {
+  const messages = [];
+  if (systemPrompt) messages.push({ role: 'system', content: systemPrompt });
+  aiChatHistory.forEach(m => {
+    messages.push({ role: m.role === 'user' ? 'user' : 'assistant', content: m.text });
+  });
+  messages.push({ role: 'user', content: prompt });
+
+  const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${AI_KEY.trim()}`
+    },
+    body: JSON.stringify({
+      model: AI_MODEL || 'llama-3.3-70b-versatile',
+      messages: messages,
+      temperature: 0.7,
+      max_tokens: 1200
+    })
+  });
+
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error?.message || `HTTP ${resp.status}`);
+  }
+  const data = await resp.json();
+  return data.choices?.[0]?.message?.content || '(No response)';
+}
+
+// ---- Gemini API Call ----
+async function callGeminiWithModel(model, prompt, systemPrompt = '') {
+  const contents = [];
+  if (systemPrompt) {
+    contents.push({ role: 'user', parts: [{ text: systemPrompt }] });
+    contents.push({ role: 'model', parts: [{ text: 'Understood. I will follow these instructions.' }] });
+  }
+  aiChatHistory.forEach(m => {
+    contents.push({ role: m.role === 'user' ? 'user' : 'model', parts: [{ text: m.text }] });
+  });
+  contents.push({ role: 'user', parts: [{ text: prompt }] });
+
+  const payload = JSON.stringify({ contents, generationConfig: { temperature: 0.7, maxOutputTokens: 1200 } });
+  const cleanKey = AI_KEY.trim();
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${encodeURIComponent(cleanKey)}`;
+
+  const resp = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: payload
+  });
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err.error?.message || `HTTP ${resp.status}`);
+  }
+  const data = await resp.json();
+  return data.candidates?.[0]?.content?.parts?.[0]?.text || '(No response)';
+}
+
+// ---- Unified AI Call Dispatcher ----
+async function callAI(prompt, systemPrompt = '', onChunk = null) {
+  if (!AI_KEY) {
+    const keyUrl = AI_PROVIDER === 'groq' ? 'console.groq.com/keys' : 'aistudio.google.com/app/apikey';
+    const msg = `⚠️ API key nahi mili! Settings → AI Settings mein ${AI_PROVIDER.toUpperCase()} API key (${keyUrl}) set karein.`;
+    if (onChunk) onChunk(msg);
+    return msg;
+  }
+
+  try {
+    let result = '';
+    if (AI_PROVIDER === 'groq') {
+      result = await callGroqAPI(prompt, systemPrompt);
+    } else {
+      result = await callGeminiWithModel(AI_MODEL || 'gemini-1.5-flash', prompt, systemPrompt);
+    }
+    if (onChunk) onChunk(result);
+    return result;
+  } catch (err) {
+    const errMsg = err.message || String(err);
+    let friendly = `❌ ${AI_PROVIDER.toUpperCase()} Error: ${errMsg}`;
+    if (errMsg.includes('401') || errMsg.includes('API key')) {
+      friendly = `❌ Invalid API Key!\n\nCheck key in Settings → AI Settings.\nGet free key: ${AI_PROVIDER === 'groq' ? 'console.groq.com/keys' : 'aistudio.google.com/app/apikey'}`;
+    } else if (errMsg.includes('429') || errMsg.toLowerCase().includes('quota') || errMsg.toLowerCase().includes('rate')) {
+      friendly = `⚠️ Rate Limit / Quota Exceeded!\n\nTip: Switch to Groq Provider in Settings — Groq has much higher free limits!`;
+    }
+    if (onChunk) onChunk(friendly);
+    return friendly;
+  }
+}
+
+// Legacy alias for backwards compatibility across all features
+const callGemini = callAI;
+
+// ---- Get User Context (for AI prompts) ----
+function getAIContext() {
+  const csProgress = (() => {
+    let done = 0, total = 0;
+    if (window.GATE_CS) GATE_CS.units.forEach(u => u.topics.forEach(t => { total++; if (state.csTopics?.[t.id]) done++; }));
+    return total ? Math.round((done/total)*100) : 0;
+  })();
+  const avgMock = state.mockTests?.length > 0
+    ? Math.round(state.mockTests.reduce((s,m) => s + (m.marks||0), 0) / state.mockTests.length)
+    : 0;
+  const daysLeft = state.gateExamDate
+    ? Math.max(0, Math.ceil((new Date(state.gateExamDate) - new Date()) / (1000*60*60*24)))
+    : 180;
+  const logs = state.logs || [];
+  const recentLogs = logs.slice(-7);
+  const avgStudyHours = recentLogs.length > 0
+    ? (recentLogs.reduce((s,l) => s + (l.duration||0), 0) / recentLogs.length / 60).toFixed(1)
+    : 0;
+  return {
+    csProgress, avgMock,
+    streak: state.streak || 0, daysLeft,
+    avgStudyHours, totalMocks: state.mockTests?.length || 0,
+    notesCount: state.notes?.length || 0
+  };
+}
+
+// ---- AI Settings Functions ----
+function saveAIKey() {
+  const key = document.getElementById('ai-api-key-input')?.value?.trim();
+  if (!key) { showToast('❌ Please enter an API key'); return; }
+  AI_KEY = key;
+  localStorage.setItem('apexforge_ai_key', key);
+  const status = document.getElementById('ai-key-status');
+  if (status) status.innerHTML = '✅ Key saved! Click "Test Connection" to verify.';
+  status.style.color = '#4ade80';
+  showToast('✅ API Key saved!');
+}
+
+function saveAISettings() {
+  const sel = document.getElementById('ai-model-select');
+  if (sel) {
+    AI_MODEL = sel.value;
+    localStorage.setItem('apexforge_ai_model', AI_MODEL);
+    const lbl = document.getElementById('ai-model-label');
+    if (lbl) lbl.textContent = `${AI_PROVIDER}:${AI_MODEL}`;
+    showToast(`Model set to ${AI_MODEL}`);
+  }
+}
+
+async function testAIConnection() {
+  const status = document.getElementById('ai-key-status');
+  const key = document.getElementById('ai-api-key-input')?.value?.trim();
+  if (key) AI_KEY = key;
+  if (!AI_KEY) { if (status) status.innerHTML = '❌ No API key found'; return; }
+  if (status) status.innerHTML = `<span class="ai-spinner"></span>Testing ${AI_PROVIDER.toUpperCase()} connection...`;
+  aiChatHistory = [];
+  const result = await callAI('Reply with exactly: "ApexForge AI connected successfully!"');
+  if (status) {
+    if (result.includes('connected')) {
+      status.innerHTML = `✅ Connected! ${AI_PROVIDER.toUpperCase()} AI is working ultra-fast!`;
+      status.style.color = '#4ade80';
+    } else {
+      status.innerHTML = `${result}`;
+      status.style.color = '#f87171';
+    }
+  }
+}
+
+// ======================================
+// FEATURE 1: AI CHATBOT
+// ======================================
+function openAIChat() {
+  document.getElementById('ai-chat-drawer').classList.add('open');
+  document.getElementById('ai-drawer-backdrop').classList.add('show');
+  document.getElementById('ai-chat-input')?.focus();
+}
+function closeAIChat() {
+  document.getElementById('ai-chat-drawer').classList.remove('open');
+  document.getElementById('ai-drawer-backdrop').classList.remove('show');
+}
+function aiChipClick(el) {
+  const input = document.getElementById('ai-chat-input');
+  if (input) { input.value = el.textContent; sendAIMessage(); }
+}
+function aiChatKeydown(e) {
+  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAIMessage(); }
+}
+function appendChatMsg(role, text) {
+  const msgs = document.getElementById('ai-chat-messages');
+  if (!msgs) return;
+  const div = document.createElement('div');
+  div.className = `ai-msg ${role}`;
+  div.innerHTML = `
+    <div class="ai-msg-avatar">${role === 'ai' ? '🤖' : '👤'}</div>
+    <div class="ai-msg-bubble" id="msg-${Date.now()}">${text}</div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+  return div.querySelector('.ai-msg-bubble');
+}
+function showTypingIndicator() {
+  const msgs = document.getElementById('ai-chat-messages');
+  const div = document.createElement('div');
+  div.className = 'ai-msg ai'; div.id = 'ai-typing';
+  div.innerHTML = `<div class="ai-msg-avatar">🤖</div><div class="ai-msg-bubble ai-typing-indicator"><span></span><span></span><span></span></div>`;
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+function removeTypingIndicator() {
+  document.getElementById('ai-typing')?.remove();
+}
+
+async function sendAIMessage() {
+  if (aiIsGenerating) return;
+  const input = document.getElementById('ai-chat-input');
+  const sendBtn = document.getElementById('ai-send-btn');
+  const text = input?.value?.trim();
+  if (!text) return;
+  input.value = '';
+  aiIsGenerating = true;
+  if (sendBtn) sendBtn.disabled = true;
+
+  appendChatMsg('user', text);
+  aiChatHistory.push({ role: 'user', text });
+  showTypingIndicator();
+
+  const ctx = getAIContext();
+  const systemPrompt = `You are ApexForge AI — a dedicated GATE CS (Computer Science & IT) exam preparation tutor.
+Student context: GATE CS Progress: ${ctx.csProgress}%, Avg Mock Score: ${ctx.avgMock}/100, Day Streak: ${ctx.streak}, Days to GATE CS: ${ctx.daysLeft}, Avg Study Hours/day: ${ctx.avgStudyHours}.
+Guidelines:
+- Answer in a mix of Hindi and English (Hinglish) OR English as requested.
+- Focus strictly on GATE CS topics (Algorithms, Data Structures, TOC, Compilers, OS, DBMS, Computer Networks, COA, Digital Logic, Discrete Math).
+- Be concise, clear, and exam-focused. Use code/bullet points when helpful.`;
+
+  const recentHistory = aiChatHistory.slice(-10);
+  const tempHistory = aiChatHistory;
+  aiChatHistory = recentHistory.slice(0, -1);
+
+  const response = await callAI(text, systemPrompt);
+  removeTypingIndicator();
+  aiChatHistory = tempHistory;
+  aiChatHistory.push({ role: 'model', text: response });
+  if (aiChatHistory.length > 20) aiChatHistory = aiChatHistory.slice(-20);
+
+  appendChatMsg('ai', response.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>').replace(/\*(.*?)\*/g, '<em>$1</em>'));
+
+  aiIsGenerating = false;
+  if (sendBtn) sendBtn.disabled = false;
+  input?.focus();
+}
+// FEATURE 3: AI STUDY PLANNER
+// ======================================
+async function generateStudyPlan() {
+  const output = document.getElementById('ai-plan-output');
+  const btn = document.getElementById('ai-plan-btn');
+  if (!output || aiIsGenerating) return;
+  btn.disabled = true;
+  output.innerHTML = '<span class="ai-spinner"></span><em style="color:var(--text-muted);">Creating your personalized plan...</em>';
+  const ctx = getAIContext();
+  const weakTopics = [];
+  if (window.GATE_CS) {
+    GATE_CS.units.forEach(u => {
+      u.topics.forEach(t => { if (!state.csTopics?.[t.id]) weakTopics.push(`CS: ${t.name}`); });
+    });
+  }
+  const weakSample = weakTopics.slice(0, 8).join(', ') || 'All topics in progress';
+  const prompt = `Create a detailed today's study schedule for a GATE CS (Computer Science) preparation student:
+- Available study time: ${ctx.avgStudyHours > 0 ? ctx.avgStudyHours : 6} hours
+- Days to GATE CS: ${ctx.daysLeft}
+- GATE CS Progress: ${ctx.csProgress}%
+- Incomplete/weak topics: ${weakSample}
+- Avg Mock Score: ${ctx.avgMock}/100
+Output: Time-blocked schedule from morning to night (6AM–11PM) with CS subject, topic, duration. Include 25-min Pomodoro blocks. Add breaks. End with an evening revision plan. Format clearly with time slots.`;
+  aiChatHistory = [];
+  const result = await callAI(prompt);
+  output.innerHTML = result.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  btn.disabled = false;
+}
+
+// ======================================
+// FEATURE 4: WEAK TOPIC DETECTOR
+// ======================================
+async function detectWeakTopics() {
+  const output = document.getElementById('ai-weak-output');
+  const btn = document.getElementById('ai-weak-btn');
+  if (!output) return;
+  btn.disabled = true;
+  output.innerHTML = '<span class="ai-spinner"></span><em style="color:var(--text-muted);">Analyzing your progress data...</em>';
+
+  const report = [];
+  if (window.GATE_CS) {
+    GATE_CS.units.forEach(u => {
+      let done = 0;
+      u.topics.forEach(t => { if (state.csTopics?.[t.id]) done++; });
+      const pct = Math.round((done / u.topics.length) * 100);
+      report.push(`CS - ${u.name}: ${pct}% (${done}/${u.topics.length} topics)`);
+    });
+  }
+  const ctx = getAIContext();
+  const prompt = `Analyze this GATE CS student's topic completion and identify weak areas:
+${report.join('\n')}
+Mock test avg: ${ctx.avgMock}/100, Days left: ${ctx.daysLeft}, Streak: ${ctx.streak} days.
+Provide:
+1. Top 3 CRITICAL weak CS topics (below 40%) — label as HIGH RISK
+2. Medium priority topics (40-70%) — label as NEEDS ATTENTION
+3. 2-3 specific action steps for GATE CS
+4. Quick wins (CS topics near completion that can be finished quickly)
+Keep it concise, use emojis, be direct.`;
+  aiChatHistory = [];
+  const result = await callAI(prompt);
+  output.innerHTML = result.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  btn.disabled = false;
+}
+
+// ======================================
+// FEATURE 5: MOCK TEST ANALYZER
+// ======================================
+async function analyzeMockTests() {
+  const output = document.getElementById('ai-mock-analysis-output');
+  const btn = document.getElementById('ai-mock-analyze-btn');
+  if (!output) return;
+  if (!state.mockTests || state.mockTests.length < 1) {
+    output.innerHTML = '<span style="color:var(--accent-warn);">⚠️ Please add at least 1 mock test result first!</span>';
+    return;
+  }
+  btn.disabled = true;
+  output.innerHTML = '<span class="ai-spinner"></span><em style="color:var(--text-muted);">Analyzing your mock test performance...</em>';
+  const testData = state.mockTests.map(m => `${m.date}: ${m.name} — ${m.marks}/100, Correct: ${m.correct||'?'}, Incorrect: ${m.incorrect||'?'}`).join('\n');
+  const ctx = getAIContext();
+  const prompt = `Analyze this GATE CS student's mock test performance:
+${testData}
+Days to GATE CS: ${ctx.daysLeft}, CS Progress: ${ctx.csProgress}%
+Provide:
+1. Score trend analysis (improving/declining/stable)
+2. Average score and what GATE CS rank it might correspond to
+3. Key weaknesses based on score patterns
+4. Specific improvement strategy for next 2 weeks
+5. Target score for next mock test
+Be specific and actionable. Use data from the results. Speak in Hinglish.`;
+  aiChatHistory = [];
+  const result = await callAI(prompt);
+  output.innerHTML = result.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  btn.disabled = false;
+}
+
+// ======================================
+// FEATURE 6: GATE SCORE PREDICTOR
+// ======================================
+async function predictGATEScore() {
+  const output = document.getElementById('ai-mock-analysis-output');
+  const btn = document.getElementById('ai-predict-btn');
+  if (!output) return;
+  btn.disabled = true;
+  output.innerHTML = '<span class="ai-spinner"></span><em style="color:var(--text-muted);">Calculating your predicted GATE score...</em>';
+  const ctx = getAIContext();
+  const testScores = state.mockTests?.map(m => m.marks).join(', ') || 'No mocks yet';
+  const prompt = `Predict GATE CS 2027 score for this student:
+- Mock test scores so far: ${testScores}
+- CS Completion: ${ctx.csProgress}%
+- Study streak: ${ctx.streak} days, Avg hours/day: ${ctx.avgStudyHours}
+- Days remaining: ${ctx.daysLeft}
+Provide:
+1. Current expected score range (min-max out of 100)
+2. Expected AIR (All India Rank) range in GATE CS based on this score
+3. Score needed for top IITs/NITs (M.Tech CS)
+4. What to do in remaining ${ctx.daysLeft} days to reach that target
+5. Confidence level (Low/Medium/High) with reason
+Use GATE CS statistics and be realistic. Speak in Hinglish.`;
+  aiChatHistory = [];
+  const result = await callAI(prompt);
+  output.innerHTML = result.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  btn.disabled = false;
+}st btn = document.getElementById('ai-mock-analyze-btn');
+  if (!output) return;
+  if (!state.mockTests || state.mockTests.length < 1) {
+    output.innerHTML = '<span style="color:var(--accent-warn);">⚠️ Please add at least 1 mock test result first!</span>';
+    return;
+  }
+  btn.disabled = true;
+  output.innerHTML = '<span class="ai-spinner"></span><em style="color:var(--text-muted);">Analyzing your mock test performance...</em>';
+  const testData = state.mockTests.map(m => `${m.date}: ${m.name} — ${m.marks}/100, Correct: ${m.correct||'?'}, Incorrect: ${m.incorrect||'?'}`).join('\n');
+  const ctx = getAIContext();
+  const prompt = `Analyze this GATE student's mock test performance:
+${testData}
+Days to GATE: ${ctx.daysLeft}, DA: ${ctx.daProgress}%, CS: ${ctx.csProgress}%
+Provide:
+1. Score trend analysis (improving/declining/stable)
+2. Average score and what GATE rank it might correspond to
+3. Key weaknesses based on score patterns
+4. Specific improvement strategy for next 2 weeks
+5. Target score for next mock test
+Be specific and actionable. Use data from the results. Speak in Hinglish.`;
+  aiChatHistory = [];
+  const result = await callGemini(prompt);
+  output.innerHTML = result.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  btn.disabled = false;
+}
+
+// ======================================
+// FEATURE 6: GATE SCORE PREDICTOR
+// ======================================
+async function predictGATEScore() {
+  const output = document.getElementById('ai-mock-analysis-output');
+  const btn = document.getElementById('ai-predict-btn');
+  if (!output) return;
+  btn.disabled = true;
+  output.innerHTML = '<span class="ai-spinner"></span><em style="color:var(--text-muted);">Calculating your predicted GATE score...</em>';
+  const ctx = getAIContext();
+  const testScores = state.mockTests?.map(m => m.marks).join(', ') || 'No mocks yet';
+  const prompt = `Predict GATE DA 2027 score for this student:
+- Mock test scores so far: ${testScores}
+- DA Completion: ${ctx.daProgress}%, CS Completion: ${ctx.csProgress}%
+- Study streak: ${ctx.streak} days, Avg hours/day: ${ctx.avgStudyHours}
+- Days remaining: ${ctx.daysLeft}
+Provide:
+1. Current expected score range (min-max out of 100)
+2. Expected AIR (All India Rank) range based on this score
+3. Score needed for IIT/NIT admission
+4. What to do in remaining ${ctx.daysLeft} days to reach that target
+5. Confidence level (Low/Medium/High) with reason
+Use GATE statistics and be realistic. Speak in Hinglish.`;
+  aiChatHistory = [];
+  const result = await callGemini(prompt);
+  output.innerHTML = result.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  btn.disabled = false;
+}
+
+// ======================================
+// FEATURE 7: AI QUIZ GENERATOR
+// ======================================
+async function generateQuiz(topicName, examType) {
+  const modal = document.getElementById('ai-quiz-modal');
+  const content = document.getElementById('ai-quiz-content');
+  if (!modal || !content) return;
+  modal.classList.add('show');
+  content.innerHTML = `<div style="text-align:center;padding:40px;">
+    <span class="ai-spinner" style="width:28px;height:28px;border-width:3px;"></span>
+    <p style="margin-top:16px;color:var(--text-muted);">Generating 5 GATE-style questions on <strong>${topicName}</strong>...</p></div>`;
+
+  const prompt = `Generate exactly 5 GATE-style MCQ questions on "${topicName}" for GATE ${examType} exam.
+Format as valid JSON array ONLY (no markdown, no extra text):
+[
+  {
+    "q": "Question text",
+    "options": ["A) option1", "B) option2", "C) option3", "D) option4"],
+    "correct": 0,
+    "explanation": "Brief explanation of correct answer"
+  }
+]
+correct is 0-indexed. Make questions challenging, GATE-level difficulty.`;
+  aiChatHistory = [];
+  const result = await callGemini(prompt);
+  try {
+    const jsonMatch = result.match(/\[[\s\S]*\]/);
+    if (!jsonMatch) throw new Error('No JSON found');
+    currentQuizData = JSON.parse(jsonMatch[0]);
+    currentQuizIndex = 0;
+    quizAnswers = [];
+    renderQuizQuestion();
+  } catch(e) {
+    content.innerHTML = `<div style="padding:20px;"><div class="modal-title">⚠️ Quiz Generation Failed</div>
+      <p style="color:var(--text-muted);margin-top:8px;">Could not parse quiz. Try again.</p>
+      <div style="margin-top:16px;font-size:12px;background:var(--bg-base);padding:12px;border-radius:8px;">${result.substring(0,300)}</div>
+      <div class="modal-actions"><button class="ai-btn" onclick="document.getElementById('ai-quiz-modal').classList.remove('show')">Close</button></div></div>`;
+  }
+}
+
+function renderQuizQuestion() {
+  if (!currentQuizData) return;
+  const content = document.getElementById('ai-quiz-content');
+  if (currentQuizIndex >= currentQuizData.length) { renderQuizScore(); return; }
+  const q = currentQuizData[currentQuizIndex];
+  const dots = currentQuizData.map((_, i) => `<div class="quiz-dot ${i < currentQuizIndex ? 'done' : i === currentQuizIndex ? 'current' : ''}"></div>`).join('');
+  content.innerHTML = `
+    <div style="padding:4px 0 16px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+        <div class="ai-card-title">🧠 Question ${currentQuizIndex+1} of ${currentQuizData.length}</div>
+        <button onclick="document.getElementById('ai-quiz-modal').classList.remove('show')" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:18px;">✕</button>
+      </div>
+      <div class="quiz-progress">${dots}</div>
+      <div class="quiz-q">${q.q}</div>
+      <div class="quiz-options">
+        ${q.options.map((opt, i) => `<button class="quiz-option" onclick="quizSelectOption(${i})" id="qopt-${i}">${opt}</button>`).join('')}
+      </div>
+      <div id="quiz-explanation" style="display:none;margin-top:14px;padding:12px;background:rgba(74,222,128,0.08);border-radius:8px;font-size:13px;color:var(--text-secondary);border:1px solid rgba(74,222,128,0.2);"></div>
+      <div style="margin-top:16px;display:flex;justify-content:flex-end;" id="quiz-next-wrap" style="display:none;"></div>
+    </div>`;
+}
+
+function quizSelectOption(idx) {
+  if (!currentQuizData) return;
+  const q = currentQuizData[currentQuizIndex];
+  const opts = document.querySelectorAll('.quiz-option');
+  opts.forEach(o => o.classList.add('disabled'));
+  const isCorrect = idx === q.correct;
+  quizAnswers.push(isCorrect);
+  opts[idx].classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) opts[q.correct].classList.add('correct');
+  const expl = document.getElementById('quiz-explanation');
+  if (expl) { expl.style.display = 'block'; expl.textContent = '💡 ' + (q.explanation || ''); }
+  const nextWrap = document.getElementById('quiz-next-wrap');
+  if (nextWrap) {
+    nextWrap.style.display = 'flex';
+    nextWrap.innerHTML = `<button class="ai-btn" onclick="quizNextQuestion()">${currentQuizIndex < currentQuizData.length-1 ? 'Next Question →' : 'See Results 🏆'}</button>`;
+  }
+}
+
+function quizNextQuestion() {
+  currentQuizIndex++;
+  renderQuizQuestion();
+}
+
+function renderQuizScore() {
+  const score = quizAnswers.filter(Boolean).length;
+  const total = currentQuizData.length;
+  const pct = Math.round((score/total)*100);
+  const emoji = pct >= 80 ? '🏆' : pct >= 60 ? '👍' : pct >= 40 ? '💪' : '📖';
+  const msg = pct >= 80 ? 'Excellent! You have strong command on this topic.' : pct >= 60 ? 'Good performance! Review the missed questions.' : pct >= 40 ? 'Keep practicing — revision needed.' : 'More study needed on this topic. Add it to your weak list.';
+  const content = document.getElementById('ai-quiz-content');
+  content.innerHTML = `
+    <div style="padding:8px 0;">
+      <div class="quiz-score-ring">
+        <div class="quiz-score-num">${emoji}</div>
+        <div class="quiz-score-num" style="font-size:36px;">${score}/${total}</div>
+        <div style="font-size:16px;color:var(--text-secondary);margin-top:8px;">${pct}% Accuracy</div>
+        <div style="font-size:13px;color:var(--text-muted);margin-top:8px;max-width:300px;margin-inline:auto;">${msg}</div>
+      </div>
+      <div class="modal-actions" style="justify-content:center;gap:10px;">
+        <button class="ai-btn" onclick="generateQuiz(currentQuizData[0] ? '${currentQuizData[0].q?.substring(0,20)}...' : 'this topic', 'DA')">🔄 New Quiz</button>
+        <button class="ai-btn ai-btn-outline" onclick="document.getElementById('ai-quiz-modal').classList.remove('show')">Done</button>
+      </div>
+    </div>`;
+  // Award XP for quiz
+  if (typeof updateXP === 'function') updateXP(score * 10);
+  if (typeof showToast === 'function') showToast(`Quiz done! ${score}/${total} correct. +${score*10} XP 🧠`);
+}
+
+// ======================================
+// FEATURE 8: NOTES AI SUMMARIZER
+// ======================================
+async function summarizeNote(noteId) {
+  const note = state.notes?.find(n => n.id == noteId || String(n.id) === String(noteId));
+  if (!note) { showToast('Note not found'); return; }
+  const btn = document.getElementById(`summarize-btn-${noteId}`);
+  const output = document.getElementById(`summary-${noteId}`);
+  if (!output) return;
+  if (btn) btn.disabled = true;
+  output.style.display = 'block';
+  output.innerHTML = '<span class="ai-spinner"></span><em>Summarizing...</em>';
+  const prompt = `Summarize this study note into 5 clear bullet points for quick revision. Make them concise and exam-focused:
+
+Title: ${note.title || 'Untitled'}
+Content: ${note.content || ''}
+
+Output 5 bullet points only. Each bullet: max 1 sentence. Focus on GATE-relevant key points.`;
+  aiChatHistory = [];
+  const result = await callGemini(prompt);
+  output.innerHTML = '📋 <strong>AI Summary:</strong><br>' + result.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  if (btn) btn.disabled = false;
+}
+
+// ======================================
+// FEATURE 9: PYQ PATTERN FINDER
+// ======================================
+async function analyzePYQPatterns() {
+  const output = document.getElementById('ai-pyq-analysis-output');
+  const btn = document.getElementById('ai-pyq-btn');
+  if (!output) return;
+  btn.disabled = true;
+  output.innerHTML = '<span class="ai-spinner"></span><em style="color:var(--text-muted);">Analyzing PYQ patterns...</em>';
+
+  const pyqData = state.pyqStatus ? Object.entries(state.pyqStatus) : [];
+  const solvedCount = pyqData.filter(([,v]) => v === 'solved').length;
+  const unsolvedCount = pyqData.filter(([,v]) => v !== 'solved').length;
+  const ctx = getAIContext();
+
+  const prompt = `Analyze GATE DA PYQ patterns and give strategic advice:
+Student PYQ data: ${solvedCount} solved, ${unsolvedCount} unsolved
+Days to GATE: ${ctx.daysLeft}, DA Progress: ${ctx.daProgress}%
+
+Provide:
+1. Which GATE DA topics appear most frequently in PYQs (based on your knowledge of GATE DA syllabus)
+2. High-priority PYQ topics to focus on given ${ctx.daysLeft} days remaining
+3. Pattern insights: question types, difficulty distribution
+4. 3 specific PYQ solving strategies for GATE DA
+5. Time allocation: how many PYQs to solve per day
+Keep it concise and actionable. Hinglish OK.`;
+  aiChatHistory = [];
+  const result = await callGemini(prompt);
+  output.innerHTML = result.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  btn.disabled = false;
+}
+
+// ======================================
+// INIT & SETTINGS HANDLERS
+// ======================================
+function renderAIModelOptions() {
+  const modelSel = document.getElementById('ai-model-select');
+  if (!modelSel) return;
+  const models = AI_PROVIDER === 'groq' ? GROQ_MODELS : GEMINI_MODELS;
+  modelSel.innerHTML = models.map(m => `<option value="${m.id}" ${m.id === AI_MODEL ? 'selected' : ''}>${m.name}</option>`).join('');
+}
+
+function saveAIProvider() {
+  const sel = document.getElementById('ai-provider-select');
+  if (!sel) return;
+  AI_PROVIDER = sel.value;
+  localStorage.setItem('apexforge_ai_provider', AI_PROVIDER);
+
+  // Update labels & placeholders
+  const keyLabel = document.getElementById('ai-key-label');
+  const keyDesc = document.getElementById('ai-key-desc');
+  const keyInput = document.getElementById('ai-api-key-input');
+  if (keyLabel) keyLabel.textContent = AI_PROVIDER === 'groq' ? 'Groq API Key' : 'Gemini API Key';
+  if (keyDesc) {
+    keyDesc.innerHTML = AI_PROVIDER === 'groq'
+      ? 'Get your free Groq key at <a href="https://console.groq.com/keys" target="_blank" style="color:#7c3aed;font-weight:700;">console.groq.com/keys</a>'
+      : 'Get your free key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:#7c3aed;">aistudio.google.com</a>';
+  }
+  if (keyInput) keyInput.placeholder = AI_PROVIDER === 'groq' ? 'gsk_...your-groq-api-key' : 'AIza...your-gemini-api-key';
+
+  // Default model for provider
+  AI_MODEL = AI_PROVIDER === 'groq' ? 'llama-3.3-70b-versatile' : 'gemini-1.5-flash';
+  localStorage.setItem('apexforge_ai_model', AI_MODEL);
+  renderAIModelOptions();
+
+  const lbl = document.getElementById('ai-model-label');
+  if (lbl) lbl.textContent = `${AI_PROVIDER}:${AI_MODEL}`;
+  showToast(`Switched to ${AI_PROVIDER.toUpperCase()} AI Provider`);
+}
+
+function saveAIKey() {
+  const key = document.getElementById('ai-api-key-input')?.value?.trim();
+  if (!key) { showToast('❌ Please enter an API key'); return; }
+  AI_KEY = key;
+  localStorage.setItem('apexforge_ai_key', key);
+  const status = document.getElementById('ai-key-status');
+  if (status) status.innerHTML = '✅ Key saved! Click "Test Connection" to verify.';
+  status.style.color = '#4ade80';
+  showToast('✅ API Key saved!');
+}
+
+function saveAISettings() {
+  const sel = document.getElementById('ai-model-select');
+  if (sel) {
+    AI_MODEL = sel.value;
+    localStorage.setItem('apexforge_ai_model', AI_MODEL);
+    const lbl = document.getElementById('ai-model-label');
+    if (lbl) lbl.textContent = `${AI_PROVIDER}:${AI_MODEL}`;
+    showToast(`Model set to ${AI_MODEL}`);
+  }
+}
+
+async function testAIConnection() {
+  const status = document.getElementById('ai-key-status');
+  const key = document.getElementById('ai-api-key-input')?.value?.trim();
+  if (key) AI_KEY = key;
+  if (!AI_KEY) { if (status) status.innerHTML = '❌ No API key found'; return; }
+  if (status) status.innerHTML = `<span class="ai-spinner"></span>Testing ${AI_PROVIDER.toUpperCase()} connection...`;
+  aiChatHistory = [];
+  const result = await callAI('Reply with exactly: "ApexForge AI connected successfully!"');
+  if (status) {
+    if (result.includes('connected')) {
+      status.innerHTML = `✅ Connected! ${AI_PROVIDER.toUpperCase()} AI is working ultra-fast!`;
+      status.style.color = '#4ade80';
+    } else {
+      status.innerHTML = `${result}`;
+      status.style.color = '#f87171';
+    }
+  }
+}
+
+(function initAI() {
+  AI_PROVIDER = localStorage.getItem('apexforge_ai_provider') || window.ENV_CONFIG?.AI_PROVIDER || 'groq';
+  AI_KEY = localStorage.getItem('apexforge_ai_key') || window.ENV_CONFIG?.GROQ_API_KEY || '';
+  AI_MODEL = localStorage.getItem('apexforge_ai_model') || window.ENV_CONFIG?.AI_MODEL || (AI_PROVIDER === 'groq' ? 'llama-3.3-70b-versatile' : 'gemini-1.5-flash');
+
+  const lbl = document.getElementById('ai-model-label');
+  if (lbl) lbl.textContent = `${AI_PROVIDER}:${AI_MODEL}`;
+
+  const dot = document.getElementById('ai-conn-dot');
+  if (dot) dot.style.background = AI_KEY ? '#4ade80' : '#f87171';
+})();
+
+const _origRenderSettings = typeof renderSettings !== 'undefined' ? renderSettings : null;
+if (typeof renderSettings === 'function') {
+  const __oldRenderSettings = renderSettings;
+  renderSettings = function() {
+    __oldRenderSettings();
+    setTimeout(() => {
+      const provSel = document.getElementById('ai-provider-select');
+      if (provSel) provSel.value = AI_PROVIDER;
+      saveAIProvider(); // Syncs labels and models
+      const keyInput = document.getElementById('ai-api-key-input');
+      if (keyInput && AI_KEY) keyInput.value = AI_KEY;
+    }, 50);
+  };
+}
+</script>
+
+<script>
+
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/StudyForge-GATE-DA-Tracker/service-worker.js')
